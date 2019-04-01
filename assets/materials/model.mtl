@@ -1,0 +1,15 @@
+# shininess
+Ns 75
+# ambient
+Ka 1.000000 1.000000 1.000000
+# diffuse
+Kd 1.00000 1.00000 1.00000
+# specular
+Ks 1.000000 1.000000 1.000000
+# emissive
+Ke 0.000000 0.000000 0.000000
+# refraction
+Ni 1.000000
+
+# texture
+map_Kd default.png
