@@ -1,6 +1,7 @@
 package Server;
 
 import Client.MessageHandler.ClientMessage;
+import Server.MessageHandler.ServerMessage;
 import ServerClientMessage.Messages;
 import ServerClientMessage.Utils;
 import Server.MessageHandler.IServerMessageHandler;
@@ -46,9 +47,8 @@ public class ServerUDP extends GameConnectionServer<UUID> {
         super.sendPacket((Serializable) object, clientUID);
     }
 
-    @Override
-    public void forwardPacketToAll(Serializable object, UUID originalClientUID) throws IOException {
-        super.forwardPacketToAll(object, originalClientUID);
+    public void forwardPacketToAll(ServerMessage message, UUID originalClientUID) throws IOException {
+        super.forwardPacketToAll(Utils.toStream(message), originalClientUID);
     }
 
     @Override
@@ -68,5 +68,9 @@ public class ServerUDP extends GameConnectionServer<UUID> {
 
     public void addJoinedClient(JoinedClient joinedClient) {
         clients.add(joinedClient);
+    }
+
+    public ArrayList<JoinedClient> getConnectedClients() {
+        return clients;
     }
 }

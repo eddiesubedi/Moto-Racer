@@ -3,9 +3,11 @@ package Server;
 import ServerClientMessage.Transform;
 import ray.rage.scene.SceneNode;
 
+import java.io.Serializable;
 import java.util.UUID;
 
-public class JoinedClient {
+public class JoinedClient implements Serializable {
+    private static final long serialVersionUID = -8321408766234064230L;
     private Transform transform;
     private UUID uuid;
     public JoinedClient(Transform transform, UUID uuid) {

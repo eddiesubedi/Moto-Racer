@@ -8,10 +8,10 @@ import ServerClientMessage.Messages;
 import ServerClientMessage.Transform;
 import ServerClientMessage.Utils;
 import ray.networking.server.IClientInfo;
-import ray.rage.scene.SceneNode;
 
 import java.io.IOException;
 import java.net.InetAddress;
+import java.util.ArrayList;
 import java.util.UUID;
 
 public class JoinMessageHandler implements IServerMessageHandler {
@@ -24,12 +24,34 @@ public class JoinMessageHandler implements IServerMessageHandler {
             if(server.getClients().size() < Config.Server.maxClients){
                 addClientToServer(server, clientInfo, clientMessage);
                 keepTrackOfClient(server, (Transform) clientMessage.getData(), clientMessage.getClientUUID());
+                notifyClientAboutOtherJoinedClients(server, clientMessage.getClientUUID());
+                notifyOtherClientsAboutThisJoinedClient(server, clientMessage.getClientUUID());
             } else {
                 ServerMessage serverMessage = new ServerMessage(Messages.clientMessageType.FAIL);
                 clientInfo.sendPacket(Utils.toStream(serverMessage));
             }
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void notifyOtherClientsAboutThisJoinedClient(ServerUDP server, UUID uuid) throws IOException {
+        ServerMessage message = new ServerMessage(Messages.clientMessageType.ADD_PLAYER);
+        message.setData(server.getConnectedClients());
+        server.forwardPacketToAll(message, uuid);
+    }
+
+    private void notifyClientAboutOtherJoinedClients(ServerUDP server, UUID uuid) throws IOException {
+        ArrayList<JoinedClient> clients = new ArrayList<>();
+        server.getConnectedClients().forEach(client -> {
+            if(!client.getUuid().equals(uuid)) {
+                clients.add(client);
+            }
+        });
+        if(clients.size()>0) {
+            ServerMessage message = new ServerMessage(Messages.clientMessageType.ADD_PLAYER);
+            message.setData(clients);
+            sendMessageToClient(server, uuid, message);
         }
     }
 
@@ -41,7 +63,6 @@ public class JoinMessageHandler implements IServerMessageHandler {
     private void addClientToServer(ServerUDP server, IClientInfo a, ClientMessage message) throws IOException {
         server.addClient(a, message.getClientUUID());
         ServerMessage successMessage = new ServerMessage(Messages.clientMessageType.SUCCESS);
-//        notify client about other clients
         sendMessageToClient(server, message.getClientUUID(), successMessage);
     }
 
