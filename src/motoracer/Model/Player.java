@@ -28,7 +28,7 @@ public class Player {
     private float brakeStrength;
     private float handling;
 
-    Player(SceneManager sceneManager, String nodeName, int viewportNumber) throws IOException {
+    Player(SceneManager sceneManager, String nodeName, int viewportNumber) throws IOException{
         this.viewportNumber = viewportNumber;
         this.sceneManager = sceneManager;
         this.nodeName = nodeName;
@@ -87,5 +87,9 @@ public class Player {
     public void reRunScripts() {
         runScripts();
         bike.updateValues(maxSpeed, engineForce, mass, drag, brakeStrength, handling);
+    }
+
+    public SceneNode getTransform(){
+        return bike.getTransform();
     }
 }

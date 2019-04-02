@@ -18,10 +18,10 @@ public class Bike extends BikePhysics {
     public Bike(SceneManager sceneManager, String name, float maxSpeed, float engineForce, float mass, float drag,
                 float brakeStrength, double handling) throws IOException {
         super(maxSpeed, engineForce, mass, drag, brakeStrength, handling);
-        Entity dolphinE = sceneManager.createEntity(name, "dirt_bike_blender.obj");
-        dolphinE.setPrimitive(TRIANGLES);
+        Entity bikeEntity = sceneManager.createEntity(name, "dirt_bike_blender.obj");
+        bikeEntity.setPrimitive(TRIANGLES);
         playerNode = sceneManager.getRootSceneNode().createChildSceneNode(name + "Node");
-        playerNode.attachObject(dolphinE);
+        playerNode.attachObject(bikeEntity);
         transform = playerNode.createChildSceneNode(name + "TransformNode");
     }
 
@@ -66,4 +66,7 @@ public class Bike extends BikePhysics {
         return playerNode;
     }
 
+    public SceneNode getTransform() {
+        return transform;
+    }
 }

@@ -5,6 +5,6 @@ public class Messages {
         TEST, JOIN
     }
     public enum clientMessageType{
-        SUCEESS
+        SUCCESS, FAIL, ADD_PLAYER
     }
 }

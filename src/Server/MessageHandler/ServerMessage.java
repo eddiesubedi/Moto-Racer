@@ -10,6 +10,7 @@ import java.util.UUID;
 public class ServerMessage implements Serializable {
     private static final long serialVersionUID = -4522719043270819785L;
     private clientMessageType message;
+    private Object data;
 
     public ServerMessage(clientMessageType message) {
         this.message = message;
@@ -19,10 +20,27 @@ public class ServerMessage implements Serializable {
         return message;
     }
 
+    public clientMessageType getMessage() {
+        return message;
+    }
+
+    public void setMessage(clientMessageType message) {
+        this.message = message;
+    }
+
+    public Object getData() {
+        return data;
+    }
+
+    public void setData(Object data) {
+        this.data = data;
+    }
+
     @Override
     public String toString() {
-        return "ClientMessage{" +
+        return "ServerMessage{" +
                 "message=" + message +
+                ", data=" + data +
                 '}';
     }
 }

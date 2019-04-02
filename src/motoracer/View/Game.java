@@ -20,6 +20,7 @@ public class Game extends VariableFrameRateGame {
     private Client client;
     public Game(Client client) {
         this.client = client;
+        this.client.setUpMessages(world);
     }
 
     @Override
@@ -28,9 +29,7 @@ public class Game extends VariableFrameRateGame {
 
     @Override
     protected void setupScene(Engine eng, SceneManager sm) throws IOException {
-        world.setUpEntities(sm, eng);
-        ClientMessage message = new ClientMessage(Messages.serverMessageType.JOIN, client.getUuid());
-        client.sendMessage(toStream(message));
+        world.setUpEntities(sm, eng, client);
     }
 
     @Override

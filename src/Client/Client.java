@@ -1,11 +1,13 @@
 package Client;
 
+import Client.MessageHandler.AddPlayerMessageHandler;
+import Client.MessageHandler.FailMessageHandler;
 import Client.MessageHandler.IClientMessageHandler;
-import Client.MessageHandler.SucessMessageHandler;
-import Server.MessageHandler.IServerMessageHandler;
+import Client.MessageHandler.SuccessMessageHandler;
 import Server.MessageHandler.ServerMessage;
 import ServerClientMessage.Messages;
 import ServerClientMessage.Utils;
+import motoracer.Model.World;
 import ray.networking.client.GameConnectionClient;
 
 import java.io.IOException;
@@ -17,21 +19,29 @@ import java.util.UUID;
 public class Client extends GameConnectionClient {
     private HashMap<Messages.clientMessageType, IClientMessageHandler> strategyHandlers;
     private UUID uuid;
+    private World world;
     public Client(InetAddress remoteAddr, int remotePort) throws IOException {
         super(remoteAddr, remotePort, ProtocolType.UDP);
         uuid = UUID.randomUUID();
+    }
+    public void setUpMessages(World world){
+        this.world = world;
         strategyHandlers = new HashMap<>();
-        strategyHandlers.put(Messages.clientMessageType.SUCEESS, new SucessMessageHandler());
+        strategyHandlers.put(Messages.clientMessageType.SUCCESS, new SuccessMessageHandler());
+        strategyHandlers.put(Messages.clientMessageType.FAIL, new FailMessageHandler());
+        strategyHandlers.put(Messages.clientMessageType.ADD_PLAYER, new AddPlayerMessageHandler());
     }
 
     @Override
     protected void processPacket(Object object) {
-        ServerMessage message = Utils.toServerMessage((byte[]) object);
-        try {
-            IClientMessageHandler messageHandler = strategyHandlers.get(message.getMessageType());
-            messageHandler.handleMessage(message);
-        } catch (Exception e){
-            System.out.println("ServerClientMessage not found");
+        if(world!=null){
+            ServerMessage message = Utils.toServerMessage((byte[]) object);
+            try {
+                IClientMessageHandler messageHandler = strategyHandlers.get(message.getMessageType());
+                messageHandler.handleMessage(message, world);
+            } catch (Exception e){
+                System.out.println("ServerClientMessage not found");
+            }
         }
     }
 

@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 public class ServerLauncher {
     private ServerLauncher(int serverPort){
         try {
-            new Server(serverPort);
+            new ServerUDP(serverPort);
         } catch (IOException e) {
             e.printStackTrace();
         }
