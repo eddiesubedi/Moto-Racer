@@ -2,6 +2,7 @@ package ServerClientMessage;
 
 import ray.rage.scene.SceneNode;
 import ray.rml.Vector3;
+import ray.rml.Vector3f;
 
 import java.io.Serializable;
 import java.util.Arrays;
@@ -12,6 +13,22 @@ public class Transform implements Serializable {
     private float[] worldForwardAxis, worldPosition, worldRightAxis, worldRotation, worldScale, worldTransform, worldUpAxis;
     public Transform(SceneNode n){
         setValues(n);
+    }
+    public Transform(){
+        localForwardAxis = new float[3];
+        localPosition = new float[3];
+        localRightAxis = new float[3];
+        localRotation = new float[9];
+        localScale = new float[3];
+        localTransform = new float[16];
+        localUpAxis = new float[3];
+        worldForwardAxis = new float[3];
+        worldPosition = new float[3];
+        worldRightAxis = new float[3];
+        worldRotation = new float[9];
+        worldScale = new float[3];
+        worldTransform = new float[16];
+        worldUpAxis = new float[3];
     }
 
     public void setValues(SceneNode n) {

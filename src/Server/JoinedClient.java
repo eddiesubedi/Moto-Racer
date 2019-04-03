@@ -1,7 +1,6 @@
 package Server;
 
 import ServerClientMessage.Transform;
-import ray.rage.scene.SceneNode;
 
 import java.io.Serializable;
 import java.util.UUID;

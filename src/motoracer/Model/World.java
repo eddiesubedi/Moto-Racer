@@ -2,6 +2,7 @@ package motoracer.Model;
 
 import Client.Client;
 import Client.MessageHandler.ClientMessage;
+import Server.JoinedClient;
 import ServerClientMessage.Messages;
 import ServerClientMessage.Transform;
 import ray.input.GenericInputManager;
@@ -10,9 +11,12 @@ import ray.rage.Engine;
 import ray.rage.scene.Entity;
 import ray.rage.scene.SceneManager;
 import ray.rage.scene.SceneNode;
+import ray.rml.Vector3f;
 
 import java.awt.*;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.UUID;
 
 import static ServerClientMessage.Utils.toStream;
 import static ray.rage.rendersystem.Renderable.Primitive.TRIANGLES;
@@ -24,6 +28,7 @@ public class World {
     private SceneManager sm;
     private Engine engine;
     private Client client;
+    private ArrayList<JoinedClient> joinedPlayers;
     public World() {
         inputManager = new GenericInputManager();
     }
@@ -32,6 +37,7 @@ public class World {
         this.sm = sceneManager;
         this.engine =engine;
         this.client = client;
+        joinedPlayers = new ArrayList<>();
         setupLights();
         setupPlayers();
         setupCamera();
@@ -41,7 +47,6 @@ public class World {
 
     private void sendJoinMessageToServer() {
         ClientMessage message = new ClientMessage(Messages.serverMessageType.JOIN, client.getUuid());
-        message.setData(new Transform(player.getTransform()));
         client.sendMessage(toStream(message));
     }
 
@@ -75,7 +80,17 @@ public class World {
         player.updateHUD(engine.getRenderSystem(), engine.getRenderSystem().getCanvas().getHeight()-20);
     }
 
-    public void addPlayer(){
-        new GamePlayer(sm, 2, engine.getTextureManager());
+    public void addPlayer(Vector3f localPosition){
+        new GamePlayer(sm, localPosition, engine.getTextureManager());
+    }
+    public SceneNode getPlayerNode(){
+        return player.getTransform();
+    }
+
+    public ArrayList<JoinedClient> getJoinedPlayers() {
+        return joinedPlayers;
+    }
+    public UUID getUuid(){
+        return client.getUuid();
     }
 }

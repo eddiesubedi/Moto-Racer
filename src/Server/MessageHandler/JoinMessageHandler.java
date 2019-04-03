@@ -17,13 +17,10 @@ import java.util.UUID;
 public class JoinMessageHandler implements IServerMessageHandler {
     @Override
     public void handleMessage(ServerUDP server, ClientMessage clientMessage, InetAddress senderIP, int senderPort) {
-        System.out.println(clientMessage.getMessageType()+" "+clientMessage.getClientUUID());
         try {
             IClientInfo clientInfo = server.getServerSocket().createClientInfo(senderIP, senderPort);
-            System.out.println(server.getClients().size() < Config.Server.maxClients);
             if(server.getClients().size() < Config.Server.maxClients){
                 addClientToServer(server, clientInfo, clientMessage);
-                keepTrackOfClient(server, (Transform) clientMessage.getData(), clientMessage.getClientUUID());
                 notifyClientAboutOtherJoinedClients(server, clientMessage.getClientUUID());
                 notifyOtherClientsAboutThisJoinedClient(server, clientMessage.getClientUUID());
             } else {
@@ -63,7 +60,15 @@ public class JoinMessageHandler implements IServerMessageHandler {
     private void addClientToServer(ServerUDP server, IClientInfo a, ClientMessage message) throws IOException {
         server.addClient(a, message.getClientUUID());
         ServerMessage successMessage = new ServerMessage(Messages.clientMessageType.SUCCESS);
+        Transform transform = new Transform();
+        if(server.getConnectedClients().size()>0){
+            float x = server.getConnectedClients().size();
+            transform.setLocalPosition(new float[]{x,0,0});
+            System.out.println(x);
+        }
+        successMessage.setData(transform);
         sendMessageToClient(server, message.getClientUUID(), successMessage);
+        keepTrackOfClient(server,transform, message.getClientUUID());
     }
 
     @Override

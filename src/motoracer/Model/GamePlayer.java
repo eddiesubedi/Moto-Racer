@@ -8,6 +8,7 @@ import ray.rage.rendersystem.states.TextureState;
 import ray.rage.scene.Entity;
 import ray.rage.scene.SceneManager;
 import ray.rage.scene.SceneNode;
+import ray.rml.Vector3f;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -18,7 +19,7 @@ import static ray.rage.rendersystem.states.RenderState.Type.TEXTURE;
 public class GamePlayer {
     private SceneNode node;
 
-    public GamePlayer(SceneManager sceneManager, float moveRight, TextureManager tm){
+    public GamePlayer(SceneManager sceneManager, Vector3f localPosition, TextureManager tm){
         Entity bikeEntity = null;
         try {
             bikeEntity = sceneManager.createEntity(UUID.randomUUID().toString(), "dirt_bike_blender.obj");
@@ -34,6 +35,6 @@ public class GamePlayer {
         bikeEntity.setPrimitive(TRIANGLES);
         node = sceneManager.getRootSceneNode().createChildSceneNode(bikeEntity.getName() + "Node");
         node.attachObject(bikeEntity);
-        node.moveRight(moveRight);
+        node.setLocalPosition(localPosition);
     }
 }
