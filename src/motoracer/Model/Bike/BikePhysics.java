@@ -101,7 +101,7 @@ public class BikePhysics implements BikeControl{
         isBreaking ^= true;
     }
 
-    float getVelocity() {
+    public float getVelocity() {
         return velocity;
     }
 

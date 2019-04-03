@@ -33,4 +33,8 @@ public class JoinedClient implements Serializable {
                 ", uuid=" + uuid +
                 '}';
     }
+
+    public boolean equals(JoinedClient client) {
+        return this.getUuid().equals(client.getUuid());
+    }
 }

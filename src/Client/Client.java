@@ -28,6 +28,7 @@ public class Client extends GameConnectionClient {
         strategyHandlers.put(Messages.clientMessageType.FAIL, new FailMessageHandler());
         strategyHandlers.put(Messages.clientMessageType.ADD_PLAYER, new AddPlayerMessageHandler());
         strategyHandlers.put(Messages.clientMessageType.REMOVE_PLAYER, new RemovePlayerMessageHandler());
+        strategyHandlers.put(Messages.clientMessageType.UPDATE_PLAYERS, new UpdatePlayersHandler());
     }
 
     @Override

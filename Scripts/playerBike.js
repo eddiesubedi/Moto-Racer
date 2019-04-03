@@ -1,4 +1,4 @@
-var maxSpeed = 10.0;
+var maxSpeed = 1.0;
 var engineForce = 60.0;
 var mass = 100.0;
 var drag = 0.0112;

@@ -92,4 +92,8 @@ public class Player {
     public SceneNode getTransform(){
         return bike.getTransform();
     }
+
+    public float getVelocity(){
+        return bike.getVelocity();
+    }
 }

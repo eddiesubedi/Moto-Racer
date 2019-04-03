@@ -7,7 +7,6 @@ import ServerClientMessage.Utils;
 import ray.networking.server.GameConnectionServer;
 import ray.networking.server.IClientInfo;
 import ray.networking.server.IServerSocket;
-import ray.rage.scene.SceneNode;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -27,6 +26,7 @@ public class ServerUDP extends GameConnectionServer<UUID> {
         strategyHandlers.put(Messages.serverMessageType.TEST, new TestMessageHandler());
         strategyHandlers.put(Messages.serverMessageType.JOIN, new JoinMessageHandler());
         strategyHandlers.put(Messages.serverMessageType.LEAVE, new LeaveMessageHandler());
+        strategyHandlers.put(Messages.serverMessageType.UPDATE_PLAYER_TRANSFORM, new UpdatePlayerTransformHandler());
         System.out.println("ServerUDP Started");
     }
 

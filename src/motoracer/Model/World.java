@@ -11,6 +11,9 @@ import ray.rage.Engine;
 import ray.rage.scene.Entity;
 import ray.rage.scene.SceneManager;
 import ray.rage.scene.SceneNode;
+import ray.rml.Matrix3;
+import ray.rml.Matrix3f;
+import ray.rml.Vector3;
 import ray.rml.Vector3f;
 
 import java.awt.*;
@@ -78,6 +81,13 @@ public class World {
         player.updatePlayer(delta);
         inputManager.update(delta);
         player.updateHUD(engine.getRenderSystem(), engine.getRenderSystem().getCanvas().getHeight()-20);
+        if(player.getVelocity()>0){
+            ClientMessage message = new ClientMessage(Messages.serverMessageType.UPDATE_PLAYER_TRANSFORM, client.getUuid());
+            Transform transform = new Transform(player.getTransform());
+            JoinedClient joinedClient = new JoinedClient(transform, getUuid());
+            message.setData(joinedClient);
+            client.sendMessage(toStream(message));
+        }
     }
 
     public void addPlayer(Vector3f localPosition, UUID uuid){
@@ -96,5 +106,16 @@ public class World {
 
     public void removePlayer(UUID uuid) {
         sm.destroySceneNode(uuid+"Node");
+    }
+
+    public void updateConnectedPlayer(JoinedClient client) {
+        SceneNode node = sm.getSceneNode(client.getUuid() + "Node");
+        Vector3 updatedLocalPosition = Vector3f.createFrom(client.getTransform().getLocalPosition());
+        Vector3 updatedLocalScale = Vector3f.createFrom(client.getTransform().getLocalScale());
+        Matrix3 updatedLocalRotation = Matrix3f.createFrom(client.getTransform().getLocalRotation());
+
+        node.setLocalPosition(node.getLocalPosition().lerp(updatedLocalPosition, .2f));
+        node.setLocalRotation(node.getLocalRotation().toQuaternion().lerp(updatedLocalRotation.toQuaternion(), .2f).toMatrix3());
+        node.setLocalScale(node.getLocalScale().lerp(updatedLocalScale, .2f));
     }
 }
