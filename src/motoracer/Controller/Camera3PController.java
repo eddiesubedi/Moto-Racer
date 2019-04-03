@@ -35,9 +35,11 @@ public class Camera3PController {
 
     public void setupInput(InputManager inputManager) {
         String controllerName = inputManager.getFirstGamepadName();
-        linkActionToGamePad(inputManager, controllerName, new OrbitZoomAction(this), POV);
-        linkActionToGamePad(inputManager, controllerName, new ElevationUpAction(this), Button._5);
-        linkActionToGamePad(inputManager, controllerName, new ElevationDownAction(this), Button._4);
+        if(controllerName!=null) {
+            linkActionToGamePad(inputManager, controllerName, new OrbitZoomAction(this), POV);
+            linkActionToGamePad(inputManager, controllerName, new ElevationUpAction(this), Button._5);
+            linkActionToGamePad(inputManager, controllerName, new ElevationDownAction(this), Button._4);
+        }
     }
 
     private void linkActionToGamePad(InputManager inputManager, String controllerName, Action action,

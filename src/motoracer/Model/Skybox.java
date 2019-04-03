@@ -21,17 +21,17 @@ class Skybox {
         Texture right = textureManager.getAssetByPath("Right.png");
         Texture top = textureManager.getAssetByPath("Up.png");
         Texture bottom = textureManager.getAssetByPath("Down.png");
+        textureManager.setBaseDirectoryPath(config.valueOf("assets.textures.path"));
 
-        AffineTransform xform = new AffineTransform();
-        xform.translate(0, front.getImage().getHeight());
-        xform.scale(1d, -1d);
-
-        front.transform(xform);
-        back.transform(xform);
-        left.transform(xform);
-        right.transform(xform);
-        top.transform(xform);
-        bottom.transform(xform);
+        AffineTransform affineTransform = new AffineTransform();
+        affineTransform.translate(0, front.getImage().getHeight());
+        affineTransform.scale(1d, -1d);
+        front.transform(affineTransform);
+        back.transform(affineTransform);
+        left.transform(affineTransform);
+        right.transform(affineTransform);
+        top.transform(affineTransform);
+        bottom.transform(affineTransform);
 
         SkyBox skyBox = sceneManager.createSkyBox("SkyBox");
         skyBox.setTexture(front, SkyBox.Face.FRONT);

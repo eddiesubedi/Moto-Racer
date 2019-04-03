@@ -1,10 +1,14 @@
 package Client;
 
+import Client.MessageHandler.ClientMessage;
+import ServerClientMessage.Messages;
 import ray.rage.game.Game;
 
 import java.io.IOException;
 import java.net.InetAddress;
 import java.util.regex.Pattern;
+
+import static ServerClientMessage.Utils.toStream;
 
 public class ClientLauncher {
     private static String serverAddress;

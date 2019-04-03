@@ -55,14 +55,20 @@ public class Player {
         this.camera3PController.setupInput(inputManager);
         String gamepadName = inputManager.getFirstGamepadName();
         String keyboardName = inputManager.getKeyboardName();
-        inputManager.associateAction(gamepadName, X, new SteerAction(bike), REPEAT_WHILE_DOWN);
-        inputManager.associateAction(gamepadName, Button._0, new AccelerateAction(bike), ON_PRESS_AND_RELEASE);
-        inputManager.associateAction(gamepadName, Button._2, new BrakeAction(bike), ON_PRESS_AND_RELEASE);
+        if(gamepadName==null){
+            System.out.println("Controller not connected");
+        } else {
+            inputManager.associateAction(gamepadName, X, new SteerAction(bike), REPEAT_WHILE_DOWN);
+            inputManager.associateAction(gamepadName, Button._0, new AccelerateAction(bike), ON_PRESS_AND_RELEASE);
+            inputManager.associateAction(gamepadName, Button._2, new BrakeAction(bike), ON_PRESS_AND_RELEASE);
+            inputManager.associateAction(gamepadName, Button._3, new RunScripts(this), ON_PRESS_ONLY);
+        }
+
         inputManager.associateAction(keyboardName, Key.W, new AccelerateAction(bike), ON_PRESS_AND_RELEASE);
         inputManager.associateAction(keyboardName, Key.S, new BrakeAction(bike), ON_PRESS_AND_RELEASE);
         inputManager.associateAction(keyboardName, Key.A, new SteerLeftAction(bike), REPEAT_WHILE_DOWN);
         inputManager.associateAction(keyboardName, Key.D, new SteerRightAction(bike), REPEAT_WHILE_DOWN);
-        inputManager.associateAction(gamepadName, Button._3, new RunScripts(this), ON_PRESS_ONLY);
+        inputManager.associateAction(keyboardName, Key.R, new RunScripts(this), ON_PRESS_ONLY);
     }
 
     void updatePlayer(float delta) {

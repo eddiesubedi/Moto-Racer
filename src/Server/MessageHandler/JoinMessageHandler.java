@@ -64,7 +64,6 @@ public class JoinMessageHandler implements IServerMessageHandler {
         if(server.getConnectedClients().size()>0){
             float x = server.getConnectedClients().size();
             transform.setLocalPosition(new float[]{x,0,0});
-            System.out.println(x);
         }
         successMessage.setData(transform);
         sendMessageToClient(server, message.getClientUUID(), successMessage);

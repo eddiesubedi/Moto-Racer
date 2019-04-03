@@ -41,10 +41,11 @@ public class World {
         this.engine =engine;
         this.client = client;
         joinedPlayers = new ArrayList<>();
-        setupLights();
         setupPlayers();
         setupCamera();
+        setupLights();
         setupWorld();
+        new Skybox(sceneManager, engine);
         sendJoinMessageToServer();
     }
 

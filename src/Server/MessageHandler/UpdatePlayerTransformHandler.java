@@ -16,6 +16,11 @@ public class UpdatePlayerTransformHandler implements IServerMessageHandler {
         JoinedClient client = (JoinedClient) clientMessage.getData();
         ServerMessage message = new ServerMessage(Messages.clientMessageType.UPDATE_PLAYERS);
         message.setData(client);
+        server.getConnectedClients().forEach(connectedClient -> {
+            if(connectedClient.equals(client)){
+                connectedClient.setTransform(client.getTransform());
+            }
+        });
         try {
             server.forwardPacketToAll(message, clientMessage.getClientUUID());
         } catch (IOException e) {
