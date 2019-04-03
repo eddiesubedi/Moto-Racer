@@ -10,14 +10,15 @@ import java.util.ArrayList;
 public class AddPlayerMessageHandler implements IClientMessageHandler{
     @Override
     public void handleMessage(ServerMessage message, World world) {
-        ArrayList<JoinedClient> serverJoinedClients = (ArrayList<JoinedClient>) message.getData();
+        ArrayList<?> serverJoinedClients = (ArrayList<?>) message.getData();
         ArrayList<JoinedClient> alreadyJoinedPlayers = world.getJoinedPlayers();
         serverJoinedClients.forEach(serverJoinedClient -> {
-            if(!world.getUuid().equals(serverJoinedClient.getUuid())) {
-                if(!isTheServerClientAlreadyAdded(serverJoinedClient, alreadyJoinedPlayers)){
+            if(!world.getUuid().equals(((JoinedClient)serverJoinedClient).getUuid())) {
+                if(!isTheServerClientAlreadyAdded( (JoinedClient)serverJoinedClient, alreadyJoinedPlayers)){
                     System.out.println("Adding "+serverJoinedClient);
-                    alreadyJoinedPlayers.add(serverJoinedClient);
-                    world.addPlayer((Vector3f) Vector3f.createFrom(serverJoinedClient.getTransform().getLocalPosition()));
+                    alreadyJoinedPlayers.add((JoinedClient)serverJoinedClient);
+                    world.addPlayer((Vector3f) Vector3f.createFrom(((JoinedClient)serverJoinedClient).getTransform().getLocalPosition()),
+                            ((JoinedClient)serverJoinedClient).getUuid());
                 }
             }
         });

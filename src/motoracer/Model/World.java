@@ -80,8 +80,8 @@ public class World {
         player.updateHUD(engine.getRenderSystem(), engine.getRenderSystem().getCanvas().getHeight()-20);
     }
 
-    public void addPlayer(Vector3f localPosition){
-        new GamePlayer(sm, localPosition, engine.getTextureManager());
+    public void addPlayer(Vector3f localPosition, UUID uuid){
+        new GamePlayer(sm, localPosition, engine.getTextureManager(), uuid);
     }
     public SceneNode getPlayerNode(){
         return player.getTransform();
@@ -92,5 +92,9 @@ public class World {
     }
     public UUID getUuid(){
         return client.getUuid();
+    }
+
+    public void removePlayer(UUID uuid) {
+        sm.destroySceneNode(uuid+"Node");
     }
 }

@@ -21,6 +21,10 @@ public class Game extends VariableFrameRateGame {
     public Game(Client client) {
         this.client = client;
         this.client.setUpMessages(world);
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            ClientMessage message = new ClientMessage(Messages.serverMessageType.LEAVE, client.getUuid());
+            client.sendMessage(toStream(message));
+        }));
     }
 
     @Override

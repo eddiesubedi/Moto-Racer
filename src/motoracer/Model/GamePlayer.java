@@ -19,10 +19,10 @@ import static ray.rage.rendersystem.states.RenderState.Type.TEXTURE;
 public class GamePlayer {
     private SceneNode node;
 
-    public GamePlayer(SceneManager sceneManager, Vector3f localPosition, TextureManager tm){
+    public GamePlayer(SceneManager sceneManager, Vector3f localPosition, TextureManager tm, UUID uuid){
         Entity bikeEntity = null;
         try {
-            bikeEntity = sceneManager.createEntity(UUID.randomUUID().toString(), "dirt_bike_blender.obj");
+            bikeEntity = sceneManager.createEntity(uuid.toString(), "dirt_bike_blender.obj");
             Texture bikeTexture = tm.getAssetByPath("bike_06.png");
             RenderSystem rs = sceneManager.getRenderSystem();
             TextureState state = (TextureState) rs.createRenderState(TEXTURE);

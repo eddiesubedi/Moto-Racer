@@ -1,9 +1,6 @@
 package Client;
 
-import Client.MessageHandler.AddPlayerMessageHandler;
-import Client.MessageHandler.FailMessageHandler;
-import Client.MessageHandler.IClientMessageHandler;
-import Client.MessageHandler.SuccessMessageHandler;
+import Client.MessageHandler.*;
 import Server.MessageHandler.ServerMessage;
 import ServerClientMessage.Messages;
 import ServerClientMessage.Utils;
@@ -30,6 +27,7 @@ public class Client extends GameConnectionClient {
         strategyHandlers.put(Messages.clientMessageType.SUCCESS, new SuccessMessageHandler());
         strategyHandlers.put(Messages.clientMessageType.FAIL, new FailMessageHandler());
         strategyHandlers.put(Messages.clientMessageType.ADD_PLAYER, new AddPlayerMessageHandler());
+        strategyHandlers.put(Messages.clientMessageType.REMOVE_PLAYER, new RemovePlayerMessageHandler());
     }
 
     @Override

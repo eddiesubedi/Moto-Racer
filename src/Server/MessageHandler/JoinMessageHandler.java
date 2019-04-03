@@ -19,7 +19,7 @@ public class JoinMessageHandler implements IServerMessageHandler {
     public void handleMessage(ServerUDP server, ClientMessage clientMessage, InetAddress senderIP, int senderPort) {
         try {
             IClientInfo clientInfo = server.getServerSocket().createClientInfo(senderIP, senderPort);
-            if(server.getClients().size() < Config.Server.maxClients){
+            if(server.getConnectedClients().size() < Config.Server.maxClients){
                 addClientToServer(server, clientInfo, clientMessage);
                 notifyClientAboutOtherJoinedClients(server, clientMessage.getClientUUID());
                 notifyOtherClientsAboutThisJoinedClient(server, clientMessage.getClientUUID());

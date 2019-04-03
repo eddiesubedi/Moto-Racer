@@ -1,12 +1,9 @@
 package Server;
 
 import Client.MessageHandler.ClientMessage;
-import Server.MessageHandler.ServerMessage;
+import Server.MessageHandler.*;
 import ServerClientMessage.Messages;
 import ServerClientMessage.Utils;
-import Server.MessageHandler.IServerMessageHandler;
-import Server.MessageHandler.JoinMessageHandler;
-import Server.MessageHandler.TestMessageHandler;
 import ray.networking.server.GameConnectionServer;
 import ray.networking.server.IClientInfo;
 import ray.networking.server.IServerSocket;
@@ -29,6 +26,7 @@ public class ServerUDP extends GameConnectionServer<UUID> {
         strategyHandlers = new HashMap<>();
         strategyHandlers.put(Messages.serverMessageType.TEST, new TestMessageHandler());
         strategyHandlers.put(Messages.serverMessageType.JOIN, new JoinMessageHandler());
+        strategyHandlers.put(Messages.serverMessageType.LEAVE, new LeaveMessageHandler());
         System.out.println("ServerUDP Started");
     }
 
