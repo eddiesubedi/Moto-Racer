@@ -1,0 +1,1 @@
+ java Server.ServerLauncher %1
