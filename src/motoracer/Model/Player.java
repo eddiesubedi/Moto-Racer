@@ -3,9 +3,15 @@ package motoracer.Model;
 import motoracer.Controller.Actions.player.*;
 import motoracer.Controller.Camera3PController;
 import motoracer.Model.Bike.Bike;
+import net.java.games.input.Component;
 import ray.input.InputManager;
+import ray.rage.Engine;
 import ray.rage.rendersystem.RenderSystem;
 import ray.rage.scene.*;
+import ray.rml.Vector3;
+import ray.rml.Vector3f;
+
+import java.awt.*;
 import java.io.IOException;
 
 import static motoracer.utils.JsEngine.getJsEngine;
@@ -33,11 +39,19 @@ public class Player {
         this.sceneManager = sceneManager;
         this.nodeName = nodeName;
         setupBike();
+        Light plight = sceneManager.createLight("testLamp1", Light.Type.POINT);
+        plight.setAmbient(new Color(.3f, .3f, .3f));
+        plight.setDiffuse(new Color(.7f, .7f, .7f));
+        plight.setSpecular(new Color(1.0f, 1.0f, 1.0f));
+        plight.setRange(5f);
+        SceneNode plightNode =sceneManager.getRootSceneNode().createChildSceneNode("plightNode");
+        plightNode.attachObject(plight);
     }
 
     private void setupBike() throws IOException {
         runScripts();
-        bike = new Bike(sceneManager, nodeName, maxSpeed, engineForce, mass, drag, brakeStrength, handling);
+        bike = new Bike(sceneManager, nodeName, maxSpeed, engineForce, mass, drag, brakeStrength, handling,
+                Vector3f.createFrom(36.0f,0.0f,242.66505f));
     }
 
     void setupPlayerCamera() {
@@ -47,7 +61,7 @@ public class Player {
         SceneNode cameraNode = rootNode.createChildSceneNode(camera.getName() + "Node");
         camera.setMode('n');
         cameraNode.attachObject(camera);
-        cameraNode.moveBackward(50);
+//        cameraNode.moveBackward(150);
         camera3PController = new Camera3PController(cameraNode, bike.getNode());
     }
 
@@ -59,9 +73,9 @@ public class Player {
             System.out.println("Controller not connected");
         } else {
             inputManager.associateAction(gamepadName, X, new SteerAction(bike), REPEAT_WHILE_DOWN);
-            inputManager.associateAction(gamepadName, Button._0, new AccelerateAction(bike), ON_PRESS_AND_RELEASE);
-            inputManager.associateAction(gamepadName, Button._2, new BrakeAction(bike), ON_PRESS_AND_RELEASE);
-            inputManager.associateAction(gamepadName, Button._3, new RunScripts(this), ON_PRESS_ONLY);
+            inputManager.associateAction(gamepadName, Component.Identifier.Button._0, new AccelerateAction(bike), ON_PRESS_AND_RELEASE);
+            inputManager.associateAction(gamepadName, Component.Identifier.Button._2, new BrakeAction(bike), ON_PRESS_AND_RELEASE);
+            inputManager.associateAction(gamepadName, Component.Identifier.Button._3, new RunScripts(this), ON_PRESS_ONLY);
         }
 
         inputManager.associateAction(keyboardName, Key.W, new AccelerateAction(bike), ON_PRESS_AND_RELEASE);
@@ -102,4 +116,5 @@ public class Player {
     public float getVelocity(){
         return bike.getVelocity();
     }
+
 }

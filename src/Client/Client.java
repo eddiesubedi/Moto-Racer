@@ -29,6 +29,9 @@ public class Client extends GameConnectionClient {
         strategyHandlers.put(Messages.clientMessageType.ADD_PLAYER, new AddPlayerMessageHandler());
         strategyHandlers.put(Messages.clientMessageType.REMOVE_PLAYER, new RemovePlayerMessageHandler());
         strategyHandlers.put(Messages.clientMessageType.UPDATE_PLAYERS, new UpdatePlayersHandler());
+        strategyHandlers.put(Messages.clientMessageType.SETUP_AI, new SetupAIHandler());
+        strategyHandlers.put(Messages.clientMessageType.UPDATE_AIS, new UpdateAIHandler());
+        strategyHandlers.put(Messages.clientMessageType.START_GAME, new StartGameHandler());
     }
 
     @Override
@@ -39,6 +42,7 @@ public class Client extends GameConnectionClient {
                 IClientMessageHandler messageHandler = strategyHandlers.get(message.getMessageType());
                 messageHandler.handleMessage(message, world);
             } catch (Exception e){
+                System.out.println(e);
                 System.out.println("ServerClientMessage not found");
             }
         }

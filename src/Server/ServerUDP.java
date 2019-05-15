@@ -13,6 +13,7 @@ import java.io.Serializable;
 import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Scanner;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -21,13 +22,39 @@ public class ServerUDP extends GameConnectionServer<UUID> {
     private ArrayList<JoinedClient> clients;
     ServerUDP(int localPort) throws IOException {
         super(localPort, ProtocolType.UDP);
+        setupAI();
         clients = new ArrayList<>();
         strategyHandlers = new HashMap<>();
         strategyHandlers.put(Messages.serverMessageType.TEST, new TestMessageHandler());
         strategyHandlers.put(Messages.serverMessageType.JOIN, new JoinMessageHandler());
         strategyHandlers.put(Messages.serverMessageType.LEAVE, new LeaveMessageHandler());
         strategyHandlers.put(Messages.serverMessageType.UPDATE_PLAYER_TRANSFORM, new UpdatePlayerTransformHandler());
+        strategyHandlers.put(Messages.serverMessageType.GET_AI_TRANSFORMS, new UpdateAITransformHandler());
+        setupInput();
         System.out.println("ServerUDP Started");
+    }
+
+    private void setupInput() {
+        new Thread(() -> {
+            Scanner scanner = new Scanner(System.in);
+            while(true){
+                String command = scanner.nextLine();
+                System.out.println("Command:" + command);
+                if(command.trim().toLowerCase().equals("start")){
+                    ServerMessage message = new ServerMessage(Messages.clientMessageType.START_GAME);
+                    try {
+                        sendPacketToAll(Utils.toStream(message));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            }
+        }).start();
+    }
+
+    private void setupAI() {
+        Position.getInstance();
     }
 
     @Override

@@ -1,13 +1,15 @@
-# Blender MTL File: 'None'
-# Material Count: 1
-
-newmtl Material.001
-Ns 96.078431
+# shininess
+Ns 75
+# ambient
 Ka 1.000000 1.000000 1.000000
-Kd 0.640000 0.640000 0.640000
-Ks 0.500000 0.500000 0.500000
+# diffuse
+Kd 1.00000 1.00000 1.00000
+# specular
+Ks 1.000000 1.000000 1.000000
+# emissive
 Ke 0.000000 0.000000 0.000000
+# refraction
 Ni 1.000000
-d 1.000000
-illum 2
-map_Kd track.jpg
+
+# texture
+map_Kd Grass.png

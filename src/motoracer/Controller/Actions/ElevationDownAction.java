@@ -13,7 +13,7 @@ public class ElevationDownAction extends AbstractInputAction {
     @Override
     public void performAction(float delta, Event event) {
         float elevation = camera.getCameraElevation();
-        elevation = elevation-0.2f;
+        elevation = elevation-20f;
         camera.setCameraElevation(elevation);
         camera.updateCameraPosition();
     }

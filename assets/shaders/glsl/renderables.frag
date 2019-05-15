@@ -1,5 +1,5 @@
 #version 430 core
-
+const float levels = 3.0;
 // stage input(s)
 in vertex_t
 {
@@ -152,6 +152,7 @@ vec4 get_light_effect(
     vec4 ambient  = light.ambient  * mat.ambient;
     vec4 diffuse  = light.diffuse  * mat.diffuse  * max(dot(N, L), 0);
     vec4 specular = light.specular * mat.specular * pow(max(dot(N, H), 0), mat.shininess * COMPENSATION);
+
 
     return ambient + attenuation * (diffuse + specular) * spot_factor + mat.emissive;
 }

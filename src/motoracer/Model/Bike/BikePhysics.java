@@ -105,9 +105,18 @@ public class BikePhysics implements BikeControl{
         return velocity;
     }
 
-    DecimalFormat f = new DecimalFormat("##.0000");
+    public void setAcceleration(float acceleration) {
+        this.acceleration = acceleration;
+    }
+
+    public void stop() {
+        this.velocity = 0;
+        this.acceleration = 0;
+    }
+
     @Override
     public String toString() {
+        DecimalFormat f = new DecimalFormat("##.0000");
         return
                 "velocity=" + f.format(velocity)+
                 ", maxSpeed=" + maxSpeed +
